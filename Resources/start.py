@@ -22,7 +22,7 @@ password = ""
 response = ""
 
 for ip in lst:
-    ipdone = open("gedaan.txt", "r")
+    ipdone = open("ipsdone.txt", "r")
 
     pattern2 = re.compile(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})")
     lst2 = []
@@ -36,7 +36,7 @@ for ip in lst:
             response = "Connection successful. Updating now."
         except Exception:
             response = "Failed Connection. Skipping!."
-            logging = open("../logging.txt", "a+")
+            logging = open("Logging/logging.txt", "a+")
             logging.write("\n" + ip + " Failed " + str(datetime.datetime.now()))
         finally:
             print(response)
@@ -62,14 +62,14 @@ for ip in lst:
         print(tn.read_sb_data().decode('ascii'))
         tn.write(b"exit\n")
         tn.read_all()  # .decode('ascii'))
-        print("Updatet")
+        print("Updated")
 
         # toevoegen aan lijst met geupdate albireos
-        ipdone = open("gedaan.txt", "a+")
+        ipdone = open("ipsdone.txt", "a+")
         ipdone.write(ip + "\n")
 
         # logging
-        logging = open("../logging.txt", "a+")
+        logging = open("Resources/Logging/logging.txt", "a+")
         logging.write("\n" + ip + " Success " + str(datetime.datetime.now()))
 
     else:
