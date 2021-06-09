@@ -12,12 +12,12 @@ for line in fstring:
 
 count = str(len(lst))
 print("Er zitten " + count + " IP's in deze lijst")
-amount = input("Hoeveel scripts wil je tegelijkertijd openen? 1-7.")
+aantalscripts = input("Hoeveel scripts wil je tegelijkertijd openen?")
 
-countInt = int(count)
-totalScripts = int(amount)
+countint = int(count)
+aantalscriptsint = int(aantalscripts) - 1
 
-n = countInt // totalScripts
+n = countint // aantalscriptsint
 
 final = [lst[i * n:(i + 1) * n] for i in range((len(lst) + n - 1) // n)]
 
@@ -37,3 +37,4 @@ for lst in final:
     f = open(filename, "w")
     f.write(finalstr)
     f.close()
+    shutil.copy(filename, directoryname)
