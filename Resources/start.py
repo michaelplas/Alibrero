@@ -4,7 +4,7 @@ import time
 import re
 
 # ophalen bestand ip lijst
-with open('iplist.txt') as fh:
+with open('ip.txt') as fh:
     fstring = fh.readlines()
 pattern = re.compile(r"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})")
 lst = []
@@ -33,13 +33,16 @@ for ip in lst:
         print("Current ip: " + ip)
         try:
             tn = telnetlib.Telnet(ip)
-            response = "Connection successful. Updating now."
-        except Exception:
-            response = "Failed Connection. Skipping!."
-            logging = open("Logging/logging.txt", "a+")
-            logging.write("\n" + ip + " Failed " + str(datetime.datetime.now()))
-        finally:
-            print(response)
+        except TimeoutError:
+            print("Timeout has been reached at " + ip + ". Skipping for now.")
+            logging = open("../Resources/Logging/logging.txt", "a+")
+            logging.write("\n" + ip + " Timeout. " + str(datetime.datetime.now()))
+            continue
+        except IOError:
+            print("Cannot update " + ip + ". Skipping for now.")
+            logging = open("../Resources/Logging/logging.txt", "a+")
+            logging.write("\n" + ip + " Failed. " + str(datetime.datetime.now()))
+            continue
 
         # telnet verbinding inloggen
         tn.read_until(b"login: ")
@@ -69,7 +72,7 @@ for ip in lst:
         ipdone.write(ip + "\n")
 
         # logging
-        logging = open("Resources/Logging/logging.txt", "a+")
+        logging = open("../Resources/Logging/logging.txt", "a+")
         logging.write("\n" + ip + " Success " + str(datetime.datetime.now()))
 
     else:

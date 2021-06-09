@@ -3,7 +3,7 @@ import os
 import shutil
 from Resources.delete import deleteUpdater
 
-with open('Resources/splitlist.txt') as sl:
+with open('iplist.txt') as sl:
     fstring = sl.readlines()
 pattern = re.compile(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})')
 lst = []
