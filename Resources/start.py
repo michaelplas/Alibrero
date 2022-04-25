@@ -28,7 +28,12 @@ for ip in lst:
     lst2 = []
 
     for line in ipdone:
-        lst2.append(pattern.search(line)[0])
+        match = pattern.search(line)
+        if match:
+            lst2.append(match[0])
+        else:
+            print("")
+
     if ip not in lst2:
         print("Current ip: " + ip)
         try:
@@ -58,14 +63,17 @@ for ip in lst:
         tn.write(b"chmod 0777 blup.sh\n")
         time.sleep(1)
         tn.write(b"echo tftphost=" + tftp.encode('ascii') + b" > /tmp/serverparams.conf\n")
-        print(tn.read_sb_data().decode('ascii'))
+        tn.read_sb_data().decode('ascii')
         time.sleep(1)
         tn.write(b"./blup.sh\n")
+        #tn_read = tn.read_all()
+        #print(repr(tn_read))
+        #tn.read
         time.sleep(1)
         print(tn.read_sb_data().decode('ascii'))
         tn.write(b"exit\n")
-        tn.read_all()  # .decode('ascii'))
-        print("Updated")
+        tn.read_all()
+        print(tn.read_all())  # .decode('ascii'))
 
         # toevoegen aan lijst met geupdate albireos
         ipdone = open("ipsdone.txt", "a+")
